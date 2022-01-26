@@ -438,6 +438,25 @@ var p5jsBlocklyEditorToolbox = `
           </shadow>
         </value>
       </block>
+      <block type="zeichen_an_stelle_aus_string">
+        <value name="zeichenfolge">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+        <value name="stelle">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>         
+      </block>
+      <block type="string_in_ganzzahl">
+        <value name="zeichenfolge">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>       
       <block type="text_changeCase">
         <value name="TEXT">
           <shadow type="text">

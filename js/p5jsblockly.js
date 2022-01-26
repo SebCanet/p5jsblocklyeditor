@@ -3,6 +3,9 @@
 var blocklyArea = document.getElementById('blocklyArea');
 var blocklyDiv = document.getElementById('blocklyDiv');
 
+var canvasWidth = 0;
+var canvasHeight = 0;
+    
 var startWidth = 0.3*$(window).width();
 var maxKoord = $(window).width();     
 
@@ -78,9 +81,28 @@ var onresize = function(e) {
     blocklyDiv.style.left = x + 'px';
     blocklyDiv.style.top = y + 'px';
     blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+    let p5Hoehe = canvasHeight+100;
+    if (blocklyArea.offsetHeight > p5Hoehe) {
     blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+    } else {
+      blocklyDiv.style.height = p5Hoehe + 'px';
+    } 
     Blockly.svgResize(workspace);
 };
+
+let splitInstance = Split(['#split-0', '#split-1'], {
+        minSize: [0, 10],
+        snapOffset: 80,
+        gutterSize: 20,
+    })
+
+let observer = new ResizeObserver(function(mutations) {
+    onresize();
+    Blockly.svgResize(workspace);
+});
+
+let child = document.getElementById('split-0');
+observer.observe(child, { attributes: true });
 
 window.addEventListener('resize', onresize, false);
 onresize();
@@ -90,8 +112,6 @@ var myp5;
 
 function updateP5() {
     let code = Blockly.JavaScript.workspaceToCode(workspace);
-    let canvasWidth = 0;
-    let canvasHeight = 0;
     var myblocks = Blockly.mainWorkspace.getAllBlocks()
     for(var i = 0; i < myblocks.length; i++){
       if(myblocks[i].type == 'setup'){
@@ -102,7 +122,7 @@ function updateP5() {
     document.getElementById('p5jsContainer').style.width = canvasWidth;
     document.getElementById('p5jsContainer').style.height = canvasHeight;    
     document.getElementById('p5jsContainer').setAttribute("style", "width: " + canvasWidth + "px; height: " + canvasHeight + "px;");
-    document.getElementById("p5jsContainer").innerHTML = "";
+    document.getElementById('p5jsContainer').innerHTML = "";
     if (myp5) {
       myp5.remove();
     }
@@ -115,7 +135,11 @@ function updateP5() {
         let text01 = '<strong>Im Code gibt es einen Fehler:<\/strong><br><br>' + e.toString() + '<hr>Mit \"rechter Maustaste - Rückgängig\" können die letzten Änderungen zurückgenommen werden.'
         document.getElementById('loggerDiv').innerHTML = text01;        
     }
+    let linksProzent = (canvasWidth+25)/$(window).width() * 100;
+    let rechtsProzent = 100-linksProzent;
+    splitInstance.setSizes([linksProzent, rechtsProzent]);
     onresize();
+    Blockly.svgResize(workspace);
 }
 
 function viewFlems() {

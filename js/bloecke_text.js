@@ -267,3 +267,48 @@ Blockly.JavaScript['text_unicodezeichen'] = function(block) {
   var code = 'String.fromCodePoint(0x' + text_unicode + ')';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
+
+Blockly.Blocks['zeichen_an_stelle_aus_string'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Zeichen aus");    
+    this.appendValueInput("zeichenfolge")
+        .setCheck("String")
+    this.appendDummyInput()
+        .appendField("an Index:");
+    this.appendValueInput("stelle")
+        .setCheck("Number")
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(farbep5Text);
+ this.setTooltip("Holt ein Zeichen aus einer Zeichenfolge an der gegebenen Stelle.");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['zeichen_an_stelle_aus_string'] = function(block) {
+  var value_zeichenfolge = Blockly.JavaScript.valueToCode(block, 'zeichenfolge', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_stelle = Blockly.JavaScript.valueToCode(block, 'stelle', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = value_zeichenfolge + '.charAt(' + value_stelle + ')';
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.Blocks['string_in_ganzzahl'] = {
+  init: function() {
+    this.appendValueInput("zeichenfolge")
+        .setCheck("String")
+    this.appendDummyInput()
+        .appendField("in Ganzzahl umwandeln");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(farbep5Text);
+ this.setTooltip("Wandelt den String in eine Zeichenfolge um.");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['string_in_ganzzahl'] = function(block) {
+  var value_zeichenfolge = Blockly.JavaScript.valueToCode(block, 'zeichenfolge', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = 'parseInt(' + value_zeichenfolge + ')';
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};

@@ -69,6 +69,22 @@ var onresize = function(e) {
     Blockly.svgResize(workspace);
 };
 
+let splitInstance = Split(['#split-0', '#split-1'], {
+        minSize: [0, 10],
+        sizes: [30, 70],
+        snapOffset: 80,
+        gutterSize: 20,
+    })
+
+let observer = new ResizeObserver(function(mutations) {
+    tabelleBauen();
+    onresize();
+    Blockly.svgResize(workspace);
+});
+
+let child = document.getElementById('split-0');
+observer.observe(child, { attributes: true });
+
 window.addEventListener('resize', onresize, false);
 onresize();
 Blockly.svgResize(workspace);
@@ -204,6 +220,7 @@ function p5Init() {
     }
     onresize();
     resetStepUi(true);
+    tabelleBauen();    
     loadTutorial('tutorials/inhalt.html');    
 }
 
@@ -218,6 +235,29 @@ document.getElementById('jsAnzeigen').onclick = function() {
 document.getElementById('flemsAnzeigen').onclick = function() {
   viewFlems();
 };
+
+function tabelleBauen() {
+  //die richtige Tabelle für die Zuordnung der Variablen finden
+  let hoeheTabelleString = 'calc(100vh - 180px)'; 
+  document.getElementById('traceTabelleDiv').setAttribute("style","height:" + hoeheTabelleString);    
+  let intViewportHeight = window.innerHeight-160;
+  let traceTabelleString = '<table id="traceTabelle" data-toggle="table" data-height="' + intViewportHeight + '"><thead><tr>';
+  let max = -Infinity;
+  let index = -1;
+  allVarNameArr.forEach(function(a, i){
+    if (a.length > max) {
+      max = a.length;
+      index = i;
+    }
+  });
+  for (let i = 0; i < allSingleVarNameArr.length; i++) {
+    traceTabelleString += '<th data-field="' + allSingleVarNameArr[i] + '" data-halign="center" data-align="center">' + allSingleVarNameArr[i] + '</th>';
+  }
+  traceTabelleString += '</tr></thead></table>';
+  document.getElementById('traceTabelleDiv').innerHTML = traceTabelleString;
+  $traceTabelleVar = $('#traceTabelle');
+  $traceTabelleVar.bootstrapTable({data: traceTabelleData});  
+}
 
 //JS-Interpreter
 var stepButton = document.getElementById('stepButton');
@@ -248,59 +288,38 @@ function initApi(interpreter, globalObject) {
         }   
       }
     }
-    if(allTraceTabelleArr.length > 0 ) {
-      if(document.getElementById('traceTabelleDiv').innerHTML == '') {
-        //die richtige Tabelle für die Zuordnung der Variablen finden
-        let intViewportHeight = window.innerHeight-160;
-        let traceTabelleString = '<table id="traceTabelle" data-toggle="table" data-height="' + intViewportHeight + '"><thead><tr>';
-        let max = -Infinity;
-        let index = -1;
-        allVarNameArr.forEach(function(a, i){
-          if (a.length > max) {
-            max = a.length;
-            index = i;
-          }
-        });
-        for (let i = 0; i < allSingleVarNameArr.length; i++) {
-          traceTabelleString += '<th data-field="' + allSingleVarNameArr[i] + '" data-halign="center" data-align="center">' + allSingleVarNameArr[i] + '</th>';
-        }
-        traceTabelleString += '</tr></thead></table>';
-        document.getElementById('traceTabelleDiv').innerHTML = traceTabelleString;
-        $traceTabelleVar = $('#traceTabelle');
-        $traceTabelleVar.bootstrapTable({data: traceTabelleData});
-      }
-      let useTraceTabelleIdx = allTraceTabelleArr.findIndex(element => element.includes(traceTabelleArr[0]));          
-      var traceTabelleZeileObj = {};
-      for (let j = 1; j < traceTabelleArr.length; j++) {
-        if(typeof traceTabelleArr[j] === 'object') {
-          if (traceTabelleArr[j].length > 0) {
-            if (typeof traceTabelleArr[j][0].F === 'undefined') {
-              let tempArr = Object.values(traceTabelleArr[j]);
-              let tempString = tempArr.join(' | ');
-              traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = tempString;
-            } else {
-              let tempString = '';
-              for (let g = 0; g < traceTabelleArr[j].length; g++) {
-                let tempArr = Object.values(traceTabelleArr[j][g].a);
-                let tempElement = tempArr.join(' | ');
-                tempString += tempElement;
-                if (g < traceTabelleArr[j].length - 1) {
-                  tempString += '<br>'
-                }
+    tabelleBauen();
+    let useTraceTabelleIdx = allTraceTabelleArr.findIndex(element => element.includes(traceTabelleArr[0]));          
+    var traceTabelleZeileObj = {};
+    for (let j = 1; j < traceTabelleArr.length; j++) {
+      if(typeof traceTabelleArr[j] === 'object') {
+        if (traceTabelleArr[j].length > 0) {
+          if (typeof traceTabelleArr[j][0].F === 'undefined') {
+            let tempArr = Object.values(traceTabelleArr[j]);
+            let tempString = tempArr.join(' | ');
+            traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = tempString;
+          } else {
+            let tempString = '';
+            for (let g = 0; g < traceTabelleArr[j].length; g++) {
+              let tempArr = Object.values(traceTabelleArr[j][g].a);
+              let tempElement = tempArr.join(' | ');
+              tempString += tempElement;
+              if (g < traceTabelleArr[j].length - 1) {
+                tempString += '<br>'
               }
-              traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = tempString;
-            } 
-          }
-          else {
-            traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = '-';
-          }
-        } else {
-          traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = traceTabelleArr[j];
+            }
+            traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = tempString;
+          } 
         }
+        else {
+          traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = '-';
+        }
+      } else {
+        traceTabelleZeileObj[allVarNameArr[useTraceTabelleIdx][j].toString()] = traceTabelleArr[j];
       }
-      traceTabelleData.push(traceTabelleZeileObj);
-      $traceTabelleVar.bootstrapTable('append', traceTabelleZeileObj);
     }
+    traceTabelleData.push(traceTabelleZeileObj);
+    $traceTabelleVar.bootstrapTable('append', traceTabelleZeileObj);
   }));
 
   interpreter.setProperty(globalObject, 'wurzelAusgeben',
@@ -340,7 +359,6 @@ function resetStepUi(clearOutput) {
     traceTabelleArr = [];
     traceTabelleData = [];
     myInterpreter = null;
-    document.getElementById('traceTabelleDiv').innerHTML = '';
   }
 }
 
