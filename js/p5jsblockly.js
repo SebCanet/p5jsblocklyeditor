@@ -206,12 +206,28 @@ document.getElementById('p5Run').onclick = function() {
     updateP5();
 };
 
-document.getElementById('p5Reset').onclick = function() {
+let modalConfirm = function(callback){
+  $("#p5loeschen").on("click", function(){
+    $("#programmLoeschenModal").modal('show');
+  });
+  $("#btnLoeschJa").on("click", function(){
+    callback(true);
+    $("#programmLoeschenModal").modal('hide');
+  });
+  $("#btnLoeschNein").on("click", function(){
+    callback(false);
+    $("#programmLoeschenModal").modal('hide');
+  });
+};
+modalConfirm(function(confirm){
+  if(confirm){
     $('#loggerDiv').removeClass('alert alert-danger').addClass('alert alert-light');
     document.getElementById('loggerDiv').innerHTML = '';    
     myp5.remove();
     p5Init();
-};
+  }else{
+  }
+});
 
 document.getElementById('jsAnzeigen').onclick = function() {
     viewCode();
