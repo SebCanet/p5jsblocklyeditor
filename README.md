@@ -53,4 +53,3 @@ Durch einen Klick auf die Schaltfläche mit dem Fragezeichen findet man in jedem
 - [Structogram Viewer](https://github.com/nigjo/structogramview) - [Apache License](https://github.com/nigjo/structogramview/blob/main/LICENSE)
 - [Dom-to-Image](https://github.com/tsayen/dom-to-image) - [MIT License](https://github.com/tsayen/dom-to-image/blob/master/LICENSE)
 - [Bootstrap Table](https://bootstrap-table.com/) - [MIT License](https://github.com/wenzhixin/bootstrap-table/blob/master/LICENSE)
-- [split.js](https://github.com/nathancahill/split) - [MIT License](https://github.com/nathancahill/split/blob/master/LICENSE)

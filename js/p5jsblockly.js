@@ -64,9 +64,6 @@ var workspace = Blockly.inject(blocklyDiv, {
 
 Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'), workspace);
 
-const zoomToFit = new ZoomToFitControl(workspace);
-zoomToFit.init();
-
 var onresize = function(e) {
     // Compute the absolute coordinates and dimensions of blocklyArea.
     var element = blocklyArea;

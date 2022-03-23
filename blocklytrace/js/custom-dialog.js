@@ -13,14 +13,14 @@
 CustomDialog = {};
 
 /** Override Blockly.alert() with custom implementation. */
-Blockly.alert = function(message, callback) {
+Blockly.dialog.alert = function(message, callback) {
   CustomDialog.show('Hinweis...', message, {
     onCancel: callback
   });
 };
 
 /** Override Blockly.confirm() with custom implementation. */
-Blockly.confirm = function(message, callback) {
+Blockly.dialog.confirm = function(message, callback) {
   CustomDialog.show('Bestätigen...', message, {
     showOkay: true,
     onOkay: function() {
@@ -34,7 +34,7 @@ Blockly.confirm = function(message, callback) {
 };
 
 /** Override Blockly.prompt() with custom implementation. */
-Blockly.prompt = function(message, defaultValue, callback) {
+Blockly.dialog.prompt = function(message, defaultValue, callback) {
   CustomDialog.show('Eingabe...', message, {
     showInput: true,
     showOkay: true,
