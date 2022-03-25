@@ -221,10 +221,6 @@ function p5Init() {
     loadTutorial('tutorials/inhalt.html');    
 }
 
-document.getElementById('p5Reset').onclick = function() {
-  p5Init();
-};
-
 document.getElementById('jsAnzeigen').onclick = function() {
   viewCode();
 };
@@ -434,5 +430,27 @@ workspace.addChangeListener(function(event) {
   if (!(event instanceof Blockly.Events.Ui) && event.type != Blockly.Events.VIEWPORT_CHANGE ) {
     // Something changed. Parser needs to be reloaded.
     generateCodeAndLoadIntoInterpreter();
+  }
+});
+
+let modalConfirm = function(callback){
+  $("#p5loeschen").on("click", function(){
+    $("#programmLoeschenModal").modal('show');
+  });
+  $("#btnLoeschJa").on("click", function(){
+    callback(true);
+    $("#programmLoeschenModal").modal('hide');
+  });
+  $("#btnLoeschNein").on("click", function(){
+    callback(false);
+    $("#programmLoeschenModal").modal('hide');
+  });
+};
+modalConfirm(function(confirm){
+  if(confirm){
+    allVarNameArr = [];
+    allSingleVarNameArr = [];
+    p5Init();
+  }else{
   }
 });

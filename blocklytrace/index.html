@@ -85,7 +85,7 @@
          <div class="row">
             <div class="container-fluid" style="min-width: 350px">
               <button onclick="stepCode()" id="stepButton" type="button" class="btn btn-sm btn-outline-primary me-1 mt-2 mb-2"><i class="bi bi-play-fill"></i>&nbsp;&nbsp;Nächster Schritt</button>
-              <button id="p5Reset" type="button" class="btn btn-sm btn-outline-primary me-1 mt-2 mb-2"><i class="bi bi-arrow-clockwise"></i>&nbsp;&nbsp;Programm löschen</button>
+              <button id="p5loeschen" type="button" class="btn btn-sm btn-outline-primary me-1 mt-2 mb-2"><i class="bi bi-arrow-clockwise"></i>&nbsp;&nbsp;Programm löschen</button>              
             </div>
           </div>     
           <div class="row">
@@ -181,7 +181,7 @@
         <p>Der <strong>Blockly-Trace-Editor</strong> ermöglicht das Erstellen einer Trace-Tabelle für ein Blockly-Programm.</p>
         <hr>
        <p>Der Blockly-Trace-Editor ist ein unterrichtsbegleitendes Projekt für den Informatik-Unterricht am Gymnasium Westerstede <a href="https://www.informatik.gym-wst.de" class="link-secondary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>.</p>
-        <p><strong>Autor:</strong> Matthias Perenthaler<br><strong>Version:</strong> Alpha V0.10.04<br><strong>Lizenz:</strong> MIT License <a href="https://de.wikipedia.org/wiki/MIT-Lizenz" class="link-secondary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a><br><strong>Repository:</strong> Github <a href="https://github.com/pt69/p5jsblocklyeditor" class="link-secondary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></p>
+        <p><strong>Autor:</strong> Matthias Perenthaler<br><strong>Version:</strong> Alpha V0.10.05<br><strong>Lizenz:</strong> MIT License <a href="https://de.wikipedia.org/wiki/MIT-Lizenz" class="link-secondary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a><br><strong>Repository:</strong> Github <a href="https://github.com/pt69/p5jsblocklyeditor" class="link-secondary" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></p>
         <hr>
         <ul class="list-group">
             <li class="list-group-item active">Verwendete Bibliotheken</li>
@@ -290,6 +290,21 @@
       </div>    
     </form>    
   </nav>  
+</div>
+
+<!-- Programm löschen Modal -->
+<div class="modal fade" id="programmLoeschenModal" tabindex="-1" aria-labelledby="programmLoeschenModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Soll das Programm wirklich gelöscht werden?
+      </div>
+      <div class="modal-footer">
+        <button id="btnLoeschNein" type="button" class="btn btn-sm btn-outline-secondary">Abbrechen</button>
+        <button id="btnLoeschJa" type="button" class="btn btn-sm btn-outline-primary">Programm löschen</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 </body>
