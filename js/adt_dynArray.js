@@ -205,7 +205,7 @@ Blockly.Blocks['adt_dynArray_getLength'] = {
 
 Blockly.JavaScript['adt_dynArray_getLength'] = function(block) {
   var list = Blockly.JavaScript.valueToCode(block, 'dynArrayVariable', Blockly.JavaScript.ORDER_ATOMIC) || '[]';
-  var code = list + '.length';
+  var code = list + '.getLength()';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
